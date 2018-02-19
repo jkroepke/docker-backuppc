@@ -2,10 +2,6 @@
 
 set -e
 
-if [[ $EUID -ne 0 ]]; then
-    chown apache:apache /etc/backuppc /var/lib/backuppc
-fi
-
 if [ ! -f /etc/backuppc/config.pl ]; then
     echo "BackupPC config not found! - Start initial copy"
 
@@ -23,6 +19,9 @@ if [ ! -d /var/lib/backuppc/cpool/ ]; then
     chmod 0750 -R /var/lib/backuppc/
 fi
 
+if [[ $EUID -eq 0 ]]; then
+    chown -R apache:apache /etc/backuppc /var/lib/backuppc
+fi
 
 for var in ${!BACKUPPC_*}
 do
@@ -40,7 +39,12 @@ do
     else
         key=${var#BACKUPPC_}
         value=${!var}
-        sed -i "s/\$Conf{$key} = .*/\$Conf{$key} = '$value';/" /etc/backuppc/config.pl
+        if grep -Fxq "\$Conf{$key} =" /etc/backuppc/config.pl
+        then
+            sed -i "s/\$Conf{$key} = .*/\$Conf{$key} = '$value';/" /etc/backuppc/config.pl
+        else
+            echo "\$Conf{$key} = '$value';" >> /etc/backuppc/config.pl
+        fi
     fi
 done
 
