@@ -16,6 +16,7 @@ RUN apk add --no-cache tini iputils bash \
         rrdtool \
         perl perl-archive-zip perl-file-listing perl-xml-rss perl-io-socket-inet6 perl-cgi perl-cgi-session \
         make g++ git gcc zlib-dev perl-dev && \
+    sed -e 's|apache:/var/www:|apache:/var/lib/backuppc:|' /etc/passwd && \
     cd /tmp/ && \
     git clone -b ${VERSION_BACKUPPC} https://github.com/backuppc/backuppc.git && \
     git clone -b ${VERSION_RSYNC_BPC} https://github.com/backuppc/rsync-bpc.git && \
