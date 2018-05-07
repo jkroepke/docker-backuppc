@@ -13,6 +13,7 @@ RUN apk add --no-cache tini iputils bash \
         openssh-client rsync tar samba-client \
         supervisor \
         apache2 \
+        curl \
         rrdtool \
         perl perl-archive-zip perl-file-listing perl-xml-rss perl-io-socket-inet6 perl-cgi perl-cgi-session \
         make g++ git gcc zlib-dev perl-dev && \
