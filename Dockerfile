@@ -52,10 +52,6 @@ RUN apk add --no-cache tini iputils bash \
     echo 'IncludeOptional /etc/apache2/conf.local.d/*.conf' >> /etc/apache2/httpd.conf && \
     echo 'Alias /backuppc/images /var/www/localhost/htdocs/backuppc/images' >> /etc/apache2/conf.d/backuppc.conf && \
     echo 'ScriptAlias /BackupPC_Admin /var/www/localhost/cgi-bin/backuppc/BackupPC_Admin' >> /etc/apache2/conf.d/backuppc.conf && \
-    # cp httpd/BackupPC.conf /etc/apache2/conf.local.d/BackupPC.conf && \
-    # sed -i "/deny\ from\ all/d" /etc/apache2/conf.local.d/BackupPC.conf && \
-    # sed -i "/deny\,allow/d" /etc/apache2/conf.local.d/BackupPC.conf && \
-    # sed -i "/allow\ from/d" /etc/apache2/conf.local.d/BackupPC.conf && \
     sed -i "s/\$Conf{CgiAdminUsers}.*/\$Conf{CgiAdminUsers} = '*';/" /etc/backuppc/config.pl && \
     sed -i 's@files = .*@files = /etc/supervisor.d/*.ini /etc/supervisor.local.d/*.ini@' /etc/supervisord.conf && \
     cp -a /etc/backuppc/ /etc/backuppc.org/ && \
