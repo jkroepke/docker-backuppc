@@ -10,7 +10,7 @@ before_install:
 
 install:
   - docker build -t backuppc .
-  - docker run -v ./etc:/etc/backuppc -v ./lib:/var/lib/backupc -v ./log:/var/log/backuppc -d -p 127.0.0.1:8080:8080 --name backuppc backuppc
+  - docker run -v $PWD/etc:/etc/backuppc -v $PWD/lib:/var/lib/backupc -v $PWD/log:/var/log/backuppc -d -p 127.0.0.1:8080:8080 --name backuppc backuppc
 
 script:
   - docker ps | grep -q backuppc
