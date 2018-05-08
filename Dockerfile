@@ -9,14 +9,13 @@ ADD root /
 
 VOLUME ["/etc/backuppc", "/var/lib/backuppc", "/var/log/backuppc"]
 
-RUN apk add --no-cache tini iputils bash \
-        openssh-client rsync tar samba-client \
+RUN apk add --no-cache tini iputils bash curl \
+        openssh-client rsync tar bzip2 samba-client \
         supervisor \
         apache2 \
-        curl \
-        rrdtool \
-        ttf-dejavu \
-        perl perl-archive-zip perl-file-listing perl-xml-rss perl-io-socket-inet6 perl-cgi perl-cgi-session \
+        rrdtool ttf-dejavu \
+        perl perl-archive-zip perl-file-listing perl-xml-rss perl-io-socket-inet6 perl-cgi perl-cgi-session && \
+    apk add --no-cache --virtual build-dependencies \
         make g++ git gcc zlib-dev perl-dev && \
     sed -i 's|apache:/var/www:|apache:/var/lib/backuppc:|' /etc/passwd && \
     cd /tmp/ && \
@@ -56,7 +55,7 @@ RUN apk add --no-cache tini iputils bash \
     sed -i 's@files = .*@files = /etc/supervisor.d/*.ini /etc/supervisor.local.d/*.ini@' /etc/supervisord.conf && \
     cp -a /etc/backuppc/ /etc/backuppc.org/ && \
     chmod +x /usr/local/bin/run && \
-    apk del --no-cache make g++ git gcc zlib-dev perl-dev && \
+    apk del --no-cache build-dependencies && \
     rm -rf /tmp/{backuppc,backuppc-xs,rsync-bpc}
 
 ENTRYPOINT ["/sbin/tini", "--"]
