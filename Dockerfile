@@ -1,5 +1,5 @@
 FROM alpine
-ENV VERSION_BACKUPPC=4.1.5 VERSION_BACKUPPC_XS=0.57 VERSION_RSYNC_BPC=3.0.9.12
+ENV VERSION_BACKUPPC=4.2.1 VERSION_BACKUPPC_XS=0.57 VERSION_RSYNC_BPC=3.0.9.12
 
 USER 0
 
@@ -7,7 +7,7 @@ EXPOSE 80 8080
 
 ADD root /
 
-VOLUME ["/etc/backuppc", "/var/lib/backuppc"]
+VOLUME ["/etc/backuppc", "/var/lib/backuppc", "/var/log/backuppc"]
 
 RUN apk add --no-cache tini iputils bash \
         openssh-client rsync tar samba-client \
@@ -15,6 +15,7 @@ RUN apk add --no-cache tini iputils bash \
         apache2 \
         curl \
         rrdtool \
+        ttf-dejavu \
         perl perl-archive-zip perl-file-listing perl-xml-rss perl-io-socket-inet6 perl-cgi perl-cgi-session \
         make g++ git gcc zlib-dev perl-dev && \
     sed -i 's|apache:/var/www:|apache:/var/lib/backuppc:|' /etc/passwd && \
