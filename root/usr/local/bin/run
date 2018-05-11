@@ -37,7 +37,7 @@ do
         key=${BASH_REMATCH[1]}
         subkey=${BASH_REMATCH[2]}
         value=${!var}
-        if grep -Fxq "\$Conf{$key}{$subkey}" /etc/backuppc/config.pl
+        if grep -Fq "\$Conf{$key}{$subkey}" /etc/backuppc/config.pl
         then
             sed -i "s/\$Conf{$key}{$subkey} = .*/\$Conf{$key}{$subkey} = '$value';/" /etc/backuppc/config.pl
         else
@@ -47,7 +47,7 @@ do
     else
         key=${var#BACKUPPC_}
         value=${!var}
-        if grep -Fxq "\$Conf{$key} =" /etc/backuppc/config.pl
+        if grep -Fq "\$Conf{$key} =" /etc/backuppc/config.pl
         then
             sed -i "s/\$Conf{$key} = .*/\$Conf{$key} = '$value';/" /etc/backuppc/config.pl
         else
