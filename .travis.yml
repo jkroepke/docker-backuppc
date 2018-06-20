@@ -16,3 +16,4 @@ script:
   - docker ps | grep -q backuppc
   - sleep 5
   - curl -vL http://localhost:8080
+
